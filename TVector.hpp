@@ -26,7 +26,7 @@ class Vector
   ~Vector();
 
   // void reset(double x);
-  void affiche();
+  void show();
   void reset();
   int size() const;    // Return Size of the Vector
 
@@ -118,29 +118,27 @@ Vector<T>::Vector(Vector && v){
 template<class T>
 Vector<T>::~Vector(){delete[] M_data;}
 
-// Show Function
+// Show Method
 template<class T>
-void Vector<T>::affiche(){
-  // cout << "Taille du vecteur: "<< M_size<< "\n";
-  for(int i=0; i<M_size; i++) cout<<i<<" "<<M_data[i]<<endl;
+void Vector<T>::show(){
+  cout << "Vector's Size: "<< M_size<< endl;
+	cout << " Index : " << " [ " ;
+  for(int i=0; i<M_size; i++) cout << "  " << i+1	<< "  ";
+	cout << " ] " << endl;
+	cout << " Value : " << " [ " ;
+	for(int i=0; i<M_size; i++)	cout << "  " <<M_data[i] << "  ";
+	cout << " ] " << endl;
 }
 
-// Show Function
+// Reset Method
 template<class T>
 void Vector<T>::reset(){
   for (unsigned int k= 0; k< M_size ; k++) M_data[k]= 0.0;
 }
 
-
-
+// Size Method
 template<class T>
 int Vector<T>::size() const { return M_size; }    // Return Size of the Vector
-
-/*Vector Vector::reset(double x) {
-for(int i=0; i<M_size; i++) M_data[i]=x;
-};*/
-
-
 
 // Assignment Operator
 template<class T>

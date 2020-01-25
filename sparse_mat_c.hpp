@@ -1,53 +1,56 @@
-/******************** sparse_mat_c.hpp ***************************
- *                        written by F.Marche
- *                        last modified 2015-11-29
- **********************************************************/
-
 #ifndef SPARSE_MAT_C_H
 #define SPARSE_MAT_C_H
-
 #include "abstract_mat_c.hpp"
 #include "TVector.hpp"
-
 using namespace std;
 
+// Compressed Sparse Row Format
 template<class T>
 class SparseMtx: public AbsMtx<T>
-{          // compressed sparse row format
+{
 private:
-  int lenth;             // # of nonzero entries of the original matrix
-  T* sra;                // array for storing the non-zero entries
-  int* clm;              // column indexes in matrix of the entries in sra
-  int* fnz;              // position in sra of first nonzero entires of each row
+  int lenth;    // Number of nonzero entries of the original matrix
+  T* sra;       // Array for storing the non-zero entries
+  int* clm;     // Column indexes in the original matrix of the entries in sra
+  int* fnz;     // Position in sra of first non-zero entires of each row
 
 public:
+  // Constructor 0 : Constructor
   SparseMtx(int n, int m, T* t, int* c, int* f);
-  // n: number of rows (and columns) of the original matrix
-  // m: length of array sra for nonzero entries.
-  // t: nonzero entries of the original matrix
-  // c: colunm indexes (in the original matrix) of entries in sra
-  // f: index in sra of first nonzero entry in each row
+  // n: Number of rows (and columns) of the original matrix;
+  // m: length of array sra for nonzero entries;
+  // t: nonzero entries of the original matrix;
+  // c: colunm indexes (in the original matrix) of entries in sra;
+  // f: index in sra of first nonzero entry in each row;
 
+  // Constructor 1 :  Copy Constructor
   SparseMtx(int n, int m);
-  // intialize all entris to zero
-  // n: number of rows (and columns). m: number of nonzero entries.
+  // Initialize all entries to zero
+  // n: number of rows (and columns);
+  // m: number of nonzero entries;
 
-  SparseMtx(const SparseMtx&);    // copy constructor
+  // Constructor 2 :  Copy Constructor
+  SparseMtx(const SparseMtx&);
+
+  // Destructor
   ~SparseMtx(){ delete[] sra; delete[] fnz; delete[] clm; }
 
-  SparseMtx& operator=(const SparseMtx&);        // Overload of Operator '='
-  Vector<T> operator*(const Vector<T>&) const;   // Matrix-Vector Product
   T& operator[](int i) const { return sra[i]; }  // Subscripting
   int& getfnz(int i) const { return fnz[i]; }    // First !0 entry of each row
   int& getclm(int i) const { return clm[i]; }    // column index
+
+  SparseMtx& operator=(const SparseMtx&);        // Overload of Operator '='
+  Vector<T> operator*(const Vector<T>&) const;   // Matrix-Vector Product
+
   //template <class S>
   // friend ostream& operator<<(ostream&, const SparseMtx<S>&);
   // overload <<
 
 };
 
-
+// **************************
 // IMPLEMENTATION
+// **************************
 template<class T>
 SparseMtx<T>::SparseMtx(int n, int m, T* et, int* cn, int* da) {
   this->nrows = n;
@@ -132,6 +135,6 @@ ostream& operator<<(ostream& s, const SparseMtx<T>& mat) {
   int* clm;              // column indexes in matrix of the entries in sra
   int* fnz;              // position in sra of first nonzero entires of each row
 }*/
-
+// **************************
 
 #endif
