@@ -25,7 +25,6 @@ class Vector
   // Destructors
   ~Vector();
 
-  // void reset(double x);
   void show();
   void reset();
   int size() const;    // Return Size of the Vector
@@ -145,7 +144,7 @@ template<class T>
 Vector<T>& Vector<T>::operator=(Vector<T> const &v){
   if (this != &v){
 	  delete[] M_data;
-	  M_data = new double[M_size=v.M_size];
+	  M_data = new T[M_size=v.M_size];
 	  for(int k=0;k<M_size;++k) M_data[k]=v.M_data[k];
   }
   return *this;

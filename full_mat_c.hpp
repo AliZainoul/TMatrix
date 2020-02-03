@@ -34,6 +34,7 @@ public:
   FullMtx& operator=(const FullMtx&);           // Overload of Operator '='
   Vector<T> operator*(const Vector<T>&) const;  // Matrix-Vector Product
   T* operator[](int i) const { return mx[i]; }  // Method that Returns i-th row
+  T** getmatrix() const {return mx;}
 
   // Overload of Operator '<<'
   template <class S>
@@ -77,30 +78,6 @@ FullMtx<T>::FullMtx(const FullMtx& mat) {
 }
 
 template<class T>
-FullMtx<T> & FullMtx<T>::operator=(const FullMtx & mat) {
-  if (this != &mat) {
-    if (this->nrows !=mat.nrows || this->ncols !=mat.ncols)
-    error("Bad matrix sizes in FullMtx::operator=()");
-    for (int i = 0; i < this->nrows; i++)
-      for (int j = 0; j < this->ncols; j++) mx[i][j]  = mat.mx[i][j];
-  }
-  return *this;
-}
-
-template<class T> // Usefull for testing small matrices
-ostream& operator<<(ostream& s, const FullMtx<T>& mat) {
-  for (int i =0; i< mat.nrows; i++) {
-    s << "\n" << i << "-th row:    \n";
-    for (int j =0; j< mat.ncols; j++) {
-      s << mat.mx[i][j] << "  ";
-      if (j%10 ==9) s << "\n";
-    }
-    s << "\n";
-  }
-  return s;
-}
-
-template<class T>
 FullMtx<T>::FullMtx(initializer_list<initializer_list<T>> lst){
   this->nrows = lst.size();
   this->ncols = (*lst.begin()).size();
@@ -113,13 +90,38 @@ FullMtx<T>::FullMtx(initializer_list<initializer_list<T>> lst){
   }
 }
 
+template<class T> // Usefull for testing small matrices
+ostream& operator<<(ostream& s, const FullMtx<T>& mat) {
+  for (int i =0; i< mat.nrows; i++) {
+    s << "\n" << i << "-th row:    \n";
+    for (int j =0; j< mat.ncols; j++)
+    {
+      s << mat.mx[i][j] << "  ";
+      if (j%10 == 9) s << "\n";
+    }
+    s << "\n";
+  }
+  return s;
+}
+
+template<class T>
+FullMtx<T> & FullMtx<T>::operator=(const FullMtx & mat) {
+  if (this != &mat) {
+    if (this->nrows !=mat.nrows || this->ncols !=mat.ncols)
+    error("Bad matrix sizes in FullMtx::operator=()");
+    for (int i = 0; i < this->nrows; i++)
+      for (int j = 0; j < this->ncols; j++) mx[i][j]  = mat.mx[i][j];
+  }
+  return *this;
+}
+
 template<class T>
 Vector<T> FullMtx<T>::operator*(const Vector<T> & vec) const {
   if (this->ncols != vec.size())
-    error("matrix and vector sizes do not match in FullMtx::operator*()");
+  error("Matrix and Vector sizes does not match in FullMtx::operator*()");
   Vector<T> tm(this->nrows);
   for (int i = 0; i < this->nrows; i++)
-    for (int j = 0; j < this->ncols; j++) tm[i] += mx[i][j]*vec[j];
+  for (int j = 0; j < this->ncols; j++) tm[i] += mx[i][j]*vec[j];
   return tm;
 }
 // ********************

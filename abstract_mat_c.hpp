@@ -12,7 +12,7 @@ public:
   virtual Vector<T> operator* (const Vector<T>&) const = 0;
 
   // Conjuguate Gradient Method
-  int CG(Vector<T>& x, const Vector<T>& b, double& eps, int& iter, int pn=0);
+  int CG(Vector<T>& x, const Vector<T>& b, T& eps, int& iter, int pn=0);
   // Preconditioned Conjugate Gradient Method for Ax=b.
   // A: symmetric positive definite
   // x:  On Entry:  Initial guess; On return: approximate solution
@@ -29,7 +29,7 @@ public:
 //  Implementation
 // ************************
 template<class T>
-int AbsMtx<T>::CG(Vector<T>& x, const Vector<T>& b, double& eps, int& iter, int prec)
+int AbsMtx<T>::CG(Vector<T>& x, const Vector<T>& b, T& eps, int& iter, int prec)
 {
   if (nrows != b.size()) error("Matrix and Vector sizes do not match.");
   const int maxiter = iter;
